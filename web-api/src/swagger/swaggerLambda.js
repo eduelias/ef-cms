@@ -16,14 +16,14 @@ exports.swaggerLambda = async () => {
       <script>
         SwaggerUIBundle({
           dom_id: '#swagger',
-          url: '/api/swagger.json'
+          url: '/latest/swagger.json'
         });
       </script>
     </body>
   </html>`;
 
   return {
-    body: body,
+    body: JSON.stringify(body),
     headers: {
       ...headers,
       'Content-Type': 'text/html',
