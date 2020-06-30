@@ -41,6 +41,7 @@ exports.goToWizardStep5 = () => {
 
 exports.submitPetition = () => {
   cy.get('button#submit-case').scrollIntoView().click();
+  cy.url().should('contain', '/file-a-petition/success');
 };
 
 exports.goToDashboard = () => {
