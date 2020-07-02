@@ -360,7 +360,7 @@ jobs:
   deploy:
     machine:
       docker_layer_caching: true
-    resource_class: large
+    resource_class: xlarge
     steps:
       - checkout
       - run:
@@ -560,8 +560,8 @@ workflows:
               ignore:
                 - develop
       - deploy:
-          # requires:
-          #   - build-client-coverage
+          requires:
+            - build-client-coverage
           filters:
             branches:
               only:
