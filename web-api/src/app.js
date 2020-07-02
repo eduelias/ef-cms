@@ -623,7 +623,7 @@ app.get(
 );
 app.post('/cases/:caseId/serve-to-irs', lambdaWrapper(serveCaseToIrsLambda));
 app.put('/cases/:caseId/', lambdaWrapper(saveCaseDetailInternalEditLambda));
-app.get('/cases/:caseId', lambdaWrapper(getCaseLambda));
+app.get('/cases/:docketNumber', lambdaWrapper(getCaseLambda));
 app.post('/cases', lambdaWrapper(createCaseLambda));
 
 /**

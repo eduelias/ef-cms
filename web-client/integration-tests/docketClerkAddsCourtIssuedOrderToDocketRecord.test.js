@@ -1,6 +1,3 @@
-import { loginAs, setupTest, uploadPetition } from './helpers';
-
-// docketClerk
 import { docketClerkAddsDocketEntryFromOrder } from './journey/docketClerkAddsDocketEntryFromOrder';
 import { docketClerkAddsDocketEntryFromOrderOfDismissal } from './journey/docketClerkAddsDocketEntryFromOrderOfDismissal';
 import { docketClerkAddsDocketEntryFromOrderWithDate } from './journey/docketClerkAddsDocketEntryFromOrderWithDate';
@@ -14,15 +11,13 @@ import { docketClerkEditsDocketEntryFromOrderTypeE } from './journey/docketClerk
 import { docketClerkEditsDocketEntryFromOrderTypeF } from './journey/docketClerkEditsDocketEntryFromOrderTypeF';
 import { docketClerkEditsDocketEntryFromOrderTypeG } from './journey/docketClerkEditsDocketEntryFromOrderTypeG';
 import { docketClerkEditsDocketEntryFromOrderTypeH } from './journey/docketClerkEditsDocketEntryFromOrderTypeH';
-import { docketClerkViewsCaseDetailForCourtIssuedDocketEntry } from './journey/docketClerkViewsCaseDetailForCourtIssuedDocketEntry';
 import { docketClerkViewsDraftOrder } from './journey/docketClerkViewsDraftOrder';
 import { docketClerkViewsSavedCourtIssuedDocketEntryInProgress } from './journey/docketClerkViewsSavedCourtIssuedDocketEntryInProgress';
-// petitionsClerk
+import { loginAs, setupTest, uploadPetition } from './helpers';
+import { petitionerViewsCaseDetail } from './journey/petitionerViewsCaseDetail';
 import { petitionsClerkViewsCaseDetail } from './journey/petitionsClerkViewsCaseDetail';
 import { petitionsClerkViewsDocketEntry } from './journey/petitionsClerkViewsDocketEntry';
 import { petitionsClerkViewsDraftOrder } from './journey/petitionsClerkViewsDraftOrder';
-//petitioner
-import { petitionerViewsCaseDetail } from './journey/petitionerViewsCaseDetail';
 
 const test = setupTest({
   useCases: {
@@ -60,7 +55,6 @@ describe('Docket Clerk Adds Court-Issued Order to Docket Record', () => {
   petitionsClerkViewsDraftOrder(test, 0);
 
   loginAs(test, 'docketclerk');
-  docketClerkViewsCaseDetailForCourtIssuedDocketEntry(test);
   docketClerkViewsDraftOrder(test, 0);
   docketClerkAddsDocketEntryFromOrder(test, 0);
   docketClerkEditsDocketEntryFromOrderTypeA(test, 0);
@@ -71,12 +65,10 @@ describe('Docket Clerk Adds Court-Issued Order to Docket Record', () => {
   docketClerkEditsDocketEntryFromOrderTypeF(test, 0);
   docketClerkEditsDocketEntryFromOrderTypeG(test, 0);
   docketClerkEditsDocketEntryFromOrderTypeH(test, 0);
-  docketClerkViewsCaseDetailForCourtIssuedDocketEntry(test);
   docketClerkViewsDraftOrder(test, 1);
   docketClerkCancelsAddDocketEntryFromOrder(test, 1);
   docketClerkViewsDraftOrder(test, 1);
   docketClerkAddsDocketEntryFromOrderOfDismissal(test, 1);
-  docketClerkViewsCaseDetailForCourtIssuedDocketEntry(test);
   docketClerkViewsSavedCourtIssuedDocketEntryInProgress(test, 1);
   docketClerkCreatesAnOrder(test, {
     documentTitle: 'Order to do something',

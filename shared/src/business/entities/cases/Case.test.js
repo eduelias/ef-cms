@@ -10,6 +10,7 @@ const {
   PARTY_TYPES,
   PAYMENT_STATUS,
   ROLES,
+  SERVICE_INDICATOR_TYPES,
   UNIQUE_OTHER_FILER_TYPE,
 } = require('../EntityConstants');
 const {
@@ -453,11 +454,10 @@ describe('Case entity', () => {
               address3: 'Ut numquam ducimus ',
               city: 'Placeat sed dolorum',
               countryType: 'domestic',
-              name: 'Keelie Bruce',
               phone: '+1 (785) 771-2329',
               postalCode: '17860',
               secondaryName: 'Logan Fields',
-              serviceIndicator: 'None',
+              serviceIndicator: SERVICE_INDICATOR_TYPES.SI_NONE,
               state: 'LA',
             },
           ],
@@ -768,20 +768,6 @@ describe('Case entity', () => {
           name: ContactFactory.DOMESTIC_VALIDATION_ERROR_MESSAGES.name,
         },
       });
-    });
-  });
-
-  describe('isValidCaseId', () => {
-    it('returns true if a valid uuid', () => {
-      expect(
-        Case.isValidCaseId('c54ba5a9-b37b-479d-9201-067ec6e335bb'),
-      ).toBeTruthy();
-    });
-
-    it('returns false if a invalid uuid', () => {
-      expect(
-        Case.isValidCaseId('XXX54ba5a9-b37b-479d-9201-067ec6e335bb'),
-      ).toBeFalsy();
     });
   });
 

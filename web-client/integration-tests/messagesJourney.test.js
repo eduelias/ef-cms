@@ -1,7 +1,11 @@
+import { docketClerkAddsDocketEntryFromMessage } from './journey/docketClerkAddsDocketEntryFromMessage';
+import { docketClerkAppliesSignatureFromMessage } from './journey/docketClerkAppliesSignatureFromMessage';
 import { docketClerkCompletesMessageThread } from './journey/docketClerkCompletesMessageThread';
+import { docketClerkEditsOrderFromMessage } from './journey/docketClerkEditsOrderFromMessage';
+import { docketClerkEditsSignatureFromMessage } from './journey/docketClerkEditsSignatureFromMessage';
 import { docketClerkViewsCompletedMessagesOnCaseDetail } from './journey/docketClerkViewsCompletedMessagesOnCaseDetail';
 import { docketClerkViewsForwardedMessageInInbox } from './journey/docketClerkViewsForwardedMessageInInbox';
-import { loginAs, setupTest, uploadPetition } from './helpers';
+import { fakeFile, loginAs, setupTest, uploadPetition } from './helpers';
 import { petitionsClerk1RepliesToMessage } from './journey/petitionsClerk1RepliesToMessage';
 import { petitionsClerk1ViewsMessageDetail } from './journey/petitionsClerk1ViewsMessageDetail';
 import { petitionsClerk1ViewsMessageInbox } from './journey/petitionsClerk1ViewsMessageInbox';
@@ -22,6 +26,9 @@ const test = setupTest({
 describe('messages journey', () => {
   beforeAll(() => {
     jest.setTimeout(40000);
+    global.window.pdfjsObj = {
+      getData: () => Promise.resolve(new Uint8Array(fakeFile)),
+    };
   });
 
   loginAs(test, 'petitioner');
@@ -51,6 +58,10 @@ describe('messages journey', () => {
 
   loginAs(test, 'docketclerk');
   docketClerkViewsForwardedMessageInInbox(test);
+  docketClerkEditsOrderFromMessage(test);
+  docketClerkAppliesSignatureFromMessage(test);
+  docketClerkEditsSignatureFromMessage(test);
+  docketClerkAddsDocketEntryFromMessage(test);
   docketClerkCompletesMessageThread(test);
   docketClerkViewsCompletedMessagesOnCaseDetail(test);
 });
