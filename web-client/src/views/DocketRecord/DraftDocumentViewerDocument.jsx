@@ -4,63 +4,70 @@ import { sequences, state } from 'cerebral';
 import React from 'react';
 import classNames from 'classnames';
 
-export const MessageDocument = connect(
+export const DraftDocumentViewerDocument = connect(
   {
+    archiveDraftDocumentModalSequence:
+      sequences.archiveDraftDocumentModalSequence,
     caseDetail: state.caseDetail,
+    draftDocumentViewerHelper: state.draftDocumentViewerHelper,
     iframeSrc: state.iframeSrc,
-    messageDocumentHelper: state.messageDocumentHelper,
     openCaseDocumentDownloadUrlSequence:
       sequences.openCaseDocumentDownloadUrlSequence,
     openConfirmEditModalSequence: sequences.openConfirmEditModalSequence,
     openConfirmEditSignatureModalSequence:
       sequences.openConfirmEditSignatureModalSequence,
-    parentMessageId: state.parentMessageId,
-    viewerDocumentToDisplay: state.viewerDocumentToDisplay,
+    viewerDraftDocumentToDisplay: state.viewerDraftDocumentToDisplay,
   },
-  function MessageDocument({
+  function DraftDocumentViewerDocument({
+    archiveDraftDocumentModalSequence,
     caseDetail,
+    draftDocumentViewerHelper,
     iframeSrc,
-    messageDocumentHelper,
     openCaseDocumentDownloadUrlSequence,
     openConfirmEditModalSequence,
     openConfirmEditSignatureModalSequence,
-    parentMessageId,
-    viewerDocumentToDisplay,
+    viewerDraftDocumentToDisplay,
   }) {
     return (
       <div
         className={classNames(
           'document-viewer--documents',
-          !viewerDocumentToDisplay && 'border border-base-lighter',
+          !viewerDraftDocumentToDisplay && 'border border-base-lighter',
         )}
       >
-        {!viewerDocumentToDisplay && (
-          <div className="padding-2">There are no attachments to preview</div>
+        {!viewerDraftDocumentToDisplay && (
+          <div className="padding-2">
+            There is no document selected for preview
+          </div>
         )}
-
-        {viewerDocumentToDisplay && (
+        {viewerDraftDocumentToDisplay && (
           <>
+            <h3>{draftDocumentViewerHelper.documentTitle}</h3>
+
+            <div className="grid-row margin-bottom-1">
+              {draftDocumentViewerHelper.createdByLabel}
+            </div>
+
             <div className="message-document-actions">
-              {messageDocumentHelper.showEditButtonNotSigned && (
+              {draftDocumentViewerHelper.showEditButtonNotSigned && (
                 <Button
                   link
-                  href={`/case-detail/${caseDetail.docketNumber}/edit-order/${viewerDocumentToDisplay.documentId}/${parentMessageId}`}
+                  href={`/case-detail/${caseDetail.docketNumber}/edit-order/${viewerDraftDocumentToDisplay.documentId}`}
                   icon="edit"
                 >
                   Edit
                 </Button>
               )}
 
-              {messageDocumentHelper.showEditButtonSigned && (
+              {draftDocumentViewerHelper.showEditButtonSigned && (
                 <Button
                   link
                   icon="edit"
+                  id="edit-order-button"
                   onClick={() =>
                     openConfirmEditModalSequence({
                       docketNumber: caseDetail.docketNumber,
-                      documentIdToEdit: viewerDocumentToDisplay.documentId,
-                      parentMessageId,
-                      redirectUrl: `/case-messages/${caseDetail.docketNumber}/message-detail/${parentMessageId}`,
+                      documentIdToEdit: viewerDraftDocumentToDisplay.documentId,
                     })
                   }
                 >
@@ -68,23 +75,38 @@ export const MessageDocument = connect(
                 </Button>
               )}
 
-              {messageDocumentHelper.showApplySignatureButton && (
+              <Button
+                link
+                icon="trash"
+                onClick={() =>
+                  archiveDraftDocumentModalSequence({
+                    caseId: caseDetail.caseId,
+                    documentId: viewerDraftDocumentToDisplay.documentId,
+                    documentTitle: viewerDraftDocumentToDisplay.documentTitle,
+                    redirectToCaseDetail: true,
+                  })
+                }
+              >
+                Delete
+              </Button>
+
+              {draftDocumentViewerHelper.showApplySignatureButton && (
                 <Button
                   link
-                  href={`/case-detail/${caseDetail.docketNumber}/edit-order/${viewerDocumentToDisplay.documentId}/sign/${parentMessageId}`}
+                  href={`/case-detail/${caseDetail.docketNumber}/edit-order/${viewerDraftDocumentToDisplay.documentId}/sign/`}
                   icon="pencil-alt"
                 >
                   Apply Signature
                 </Button>
               )}
 
-              {messageDocumentHelper.showEditSignatureButton && (
+              {draftDocumentViewerHelper.showEditSignatureButton && (
                 <Button
                   link
                   icon="pencil-alt"
                   onClick={() =>
                     openConfirmEditSignatureModalSequence({
-                      documentIdToEdit: viewerDocumentToDisplay.documentId,
+                      documentIdToEdit: viewerDraftDocumentToDisplay.documentId,
                     })
                   }
                 >
@@ -92,10 +114,10 @@ export const MessageDocument = connect(
                 </Button>
               )}
 
-              {messageDocumentHelper.showAddDocketEntryButton && (
+              {draftDocumentViewerHelper.showAddDocketEntryButton && (
                 <Button
                   link
-                  href={`/case-detail/${caseDetail.docketNumber}/documents/${viewerDocumentToDisplay.documentId}/add-court-issued-docket-entry/${parentMessageId}`}
+                  href={`/case-detail/${caseDetail.docketNumber}/documents/${viewerDraftDocumentToDisplay.documentId}/add-court-issued-docket-entry`}
                   icon="plus-circle"
                 >
                   Add Docket Entry
@@ -109,7 +131,7 @@ export const MessageDocument = connect(
                 onClick={() =>
                   openCaseDocumentDownloadUrlSequence({
                     caseId: caseDetail.caseId,
-                    documentId: viewerDocumentToDisplay.documentId,
+                    documentId: viewerDraftDocumentToDisplay.documentId,
                   })
                 }
               >
@@ -119,7 +141,7 @@ export const MessageDocument = connect(
             {!process.env.CI && (
               <iframe
                 src={iframeSrc}
-                title={viewerDocumentToDisplay.documentTitle}
+                title={draftDocumentViewerHelper.documentTitle}
               />
             )}
           </>
