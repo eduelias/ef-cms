@@ -6,6 +6,5 @@ export const chambersUserViewsDocumentDetail = test => {
     });
 
     expect(test.getState('currentPage')).toEqual('DocumentDetail');
-    expect(test.getState('editDocumentEntryPoint')).toEqual('DocumentDetail');
   });
 };

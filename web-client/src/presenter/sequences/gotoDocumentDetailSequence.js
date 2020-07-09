@@ -27,7 +27,6 @@ export const gotoDocumentDetailSequence = [
   setCaseAction,
   getInternalUsersAction,
   setInternalUsersAction,
-  set(state.editDocumentEntryPoint, 'DocumentDetail'),
   setDocumentDetailPageTitleAction,
   setCurrentPageAction('DocumentDetail'),
   parallel([

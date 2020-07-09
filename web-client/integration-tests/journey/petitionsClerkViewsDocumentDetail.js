@@ -5,6 +5,5 @@ export const petitionsClerkViewsDocumentDetail = test => {
       documentId: test.documentId,
     });
     expect(test.getState('currentPage')).toEqual('DocumentDetail');
-    expect(test.getState('editDocumentEntryPoint')).toEqual('DocumentDetail');
   });
 };

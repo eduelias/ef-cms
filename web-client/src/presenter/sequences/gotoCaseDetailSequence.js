@@ -65,7 +65,6 @@ export const gotoCaseDetailSequence = [
   getConsolidatedCasesByCaseAction,
   setConsolidatedCasesForCaseAction,
   setDefaultDocketRecordSortAction,
-  set(state.editDocumentEntryPoint, 'CaseDetail'),
   runPathForUserRoleAction,
   {
     ...takePathForRoles(
