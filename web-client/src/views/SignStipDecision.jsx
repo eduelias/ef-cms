@@ -15,7 +15,8 @@ export const SignStipDecision = connect(
     documentId: state.documentId,
     loadOriginalProposedStipulatedDecisionSequence:
       sequences.loadOriginalProposedStipulatedDecisionSequence,
-    navigateToPathSequence: sequences.navigateToPathSequence,
+    navigateToCaseDetailWithDraftDocumentSequence:
+      sequences.navigateToCaseDetailWithDraftDocumentSequence,
     pdfForSigning: state.pdfForSigning,
     pdfObj: state.pdfForSigning.pdfjsObj,
     pdfSignerHelper: state.pdfSignerHelper,
@@ -26,11 +27,9 @@ export const SignStipDecision = connect(
   function SignStipDecision({
     completeDocumentSigningSequence,
     currentPageNumber,
-    docketNumber,
     documentDetailHelper,
-    documentId,
     loadOriginalProposedStipulatedDecisionSequence,
-    navigateToPathSequence,
+    navigateToCaseDetailWithDraftDocumentSequence,
     pdfForSigning,
     pdfObj,
     pdfSignerHelper,
@@ -165,6 +164,7 @@ export const SignStipDecision = connect(
                     >
                       Save
                     </Button> */}
+
                     <Button
                       disabled={pdfSignerHelper.disableSaveAndSendButton}
                       onClick={() => completeDocumentSigningSequence()}
@@ -175,9 +175,7 @@ export const SignStipDecision = connect(
                       link
                       className="margin-left-2"
                       onClick={() =>
-                        navigateToPathSequence({
-                          path: `/case-detail/${docketNumber}/documents/${documentId}`,
-                        })
+                        navigateToCaseDetailWithDraftDocumentSequence()
                       }
                     >
                       Cancel
