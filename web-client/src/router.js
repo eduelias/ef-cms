@@ -135,6 +135,16 @@ const router = {
     );
 
     registerRoute(
+      '/case-detail/*?readOnly=*',
+      ifHasAccess(docketNumber => {
+        setPageTitle(`Docket ${docketNumber}`);
+        return app.getSequence('gotoCaseDetailReadOnlySequence')({
+          docketNumber,
+        });
+      }),
+    );
+
+    registerRoute(
       '/case-detail/*/case-information',
       ifHasAccess(docketNumber => {
         window.history.replaceState(null, null, `/case-detail/${docketNumber}`);
